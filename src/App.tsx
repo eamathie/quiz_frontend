@@ -1,33 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
+import { fetchQuestions } from './services/api/fetchQuestions'
+import { fetchCategories } from './services/api/fetchCategories'
+import { type Question} from './services/api/fetchQuestions'
+import { type Category } from './services/api/fetchCategories'
+
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
+/*   const [questions, setQuestions] = useState<Question[]>([]);
+
+  function handleClick() {
+    fetchQuestions().then(data => {
+      setQuestions(data.results);
+      console.log(questions);
+    })
+  }
+ */
+
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  // fetch categories on start
+  useEffect(() => {
+    fetchCategories().then(data => {
+      setCategories(data.trivia_categories);
+      console.log(categories);
+    })
+  }, [])
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h1>Categories</h1>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+      <div>
+        {categories.length > 0
+          ? categories.map(q => <h3 key={q.name}>{q.name}</h3>)
+          : <h2>Loading...</h2>
+        }
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
