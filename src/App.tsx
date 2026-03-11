@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { fetchQuestions } from './services/api/fetchQuestions'
 import { fetchCategories } from './services/api/fetchCategories'
-import { type Question} from './services/api/fetchQuestions'
 import { type Category } from './services/api/fetchCategories'
+import { CategoryCard } from './components/CategoryCard'
 
 
 
@@ -37,7 +36,7 @@ function App() {
 
       <div>
         {categories.length > 0
-          ? categories.map(q => <h3 key={q.name}>{q.name}</h3>)
+          ? categories.map(q => <CategoryCard key={q.id} id={q.id} name={q.name} />)
           : <h2>Loading...</h2>
         }
       </div>
